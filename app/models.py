@@ -16,12 +16,11 @@ class Mental_Model(db.Model):
     url = db.Column(db.String(255))
     category = db.Column(db.String(45))
 
-    def __init__(self):
-        self.id = id
-        self.title = title
-        self.description = description
-        self.url = url
-        self.category = category
+    # def __init__(self):
+    #     self.title = title
+    #     self.description = description
+    #     self.url = url
+    #     self.category = category
 
     # @property
     # def serialize(self):
