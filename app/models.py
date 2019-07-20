@@ -16,22 +16,6 @@ class Mental_Model(db.Model):
     url = db.Column(db.String(255))
     category = db.Column(db.String(45))
 
-    # def __init__(self):
-    #     self.title = title
-    #     self.description = description
-    #     self.url = url
-    #     self.category = category
-
-    # @property
-    # def serialize(self):
-    #   return {
-    #     'id': self.id,
-    #     'title': self.title,
-    #     'description': self.description,
-    #     'url': self.url,
-    #     'category': self.category,
-    #   }
-
     def __repr__(self):
         return '<Mental_Model: {}>'.format(self.title)
 
