@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 from config import app_config
+from .response import InvalidUsage
 
 db = SQLAlchemy()
 
@@ -23,6 +24,12 @@ def create_app(config_name):
 
     @app.route('/')
     def hello_world():
-        return "Hello World"
+        return jsonify(['hello', 'world'])
+
+    @app.errorhandler(InvalidUsage)
+    def handle_invalid_usage(error):
+        response = jsonify(error.to_dict())
+        response.status_code = error.status_code
+        return response
 
     return app
