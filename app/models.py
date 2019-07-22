@@ -16,6 +16,12 @@ class Mental_Model(db.Model):
     url = db.Column(db.String(255))
     category = db.Column(db.String(45))
 
+    def update(self, **kwargs):
+        for key, value in  kwargs.items():
+            if key != 'title':
+                print('setting {}'.format(key))
+                setattr(self, key, value)
+
     def __repr__(self):
         return '<Mental_Model: {}>'.format(self.title)
 

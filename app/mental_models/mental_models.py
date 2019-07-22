@@ -51,7 +51,7 @@ def POST_mental_models():
     # Check if it already exists
     model = Mental_Model.query.filter_by(title=data.title).first()
     if model:
-        return {'message': 'Mental Model with that title already exists'}, 400
+        return {'message': 'A Mental Model with that title already exists'}, 400
 
     # Add to DB
     db.session.add(data)
@@ -69,24 +69,23 @@ def PUT_mental_model(id):
     if not json_data:
         return 'No data provided.'
 
-    updated = mm_schema.load(json_data, session=db.session, partial=True).data
+    updated, errors = mm_schema.load(json_data, session=db.session, partial=True)
+    if errors:
+        return jsonify(errors), 422
 
     # Get from DB
     existing_model = Mental_Model.query.filter_by(id=id).first()
     if existing_model is None:
         raise InvalidUsage('MentalModel not found', 404)
 
-    if updated.category:
-        existing_model.category = updated.category
+    # 'title' is a special case since it needs to be unique
+    if json_data['title']:
+        existing_title = Mental_Model.query.filter_by(title=json_data['title']).first()
+        if existing_title is not None:
+            raise InvalidUsage('A MentalModel with that title already exists', 400)
+        existing_model.title = json_data['title']
 
-    if updated.title:
-        existing_model.title = updated.title
-
-    if updated.description:
-        existing_model.description = updated.description
-
-    if updated.url:
-        existing_model.url = updated.url
+    existing_model.update(**json_data)
 
     # Update DB
     db.session.flush()
