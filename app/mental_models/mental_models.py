@@ -91,7 +91,6 @@ def PUT_mental_model(id):
   existing_model.update(**json_data)
 
   # Update DB
-  db.session.flush()
   db.session.commit()
 
   # Return to client
