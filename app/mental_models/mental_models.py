@@ -95,3 +95,17 @@ def PUT_mental_model(id):
 
   # Return to client
   return mm_schema.dump(existing_model).data
+
+
+@mental_models.route('/<id>', methods=['DELETE'])
+def DELETE_mental_model(id):
+  existing_model = Mental_Model.query.filter_by(id=id).first()
+
+  # If it doesn't exist, throw an error
+  if existing_model is None:
+    raise InvalidUsage('MentalModel not found', 404)
+
+  Mental_Model.query.filter_by(id=id).delete()
+
+  db.session.commit()
+  return {}
