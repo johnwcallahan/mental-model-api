@@ -80,7 +80,7 @@ def PUT_mental_model(id):
     raise InvalidUsage('MentalModel not found', 404)
 
   # 'title' is a special case since it needs to be unique
-  if json_data['title']:
+  if 'title' in json_data:
     existing_title = Mental_Model.query.filter_by(
         title=json_data['title']).first()
     if existing_title is not None:
